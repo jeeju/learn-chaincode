@@ -38,7 +38,7 @@ func main() {
 }
 
 // Init resets all the things
-func (t *SimpleChaincode) Init(stub ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (t *SimpleChaincode) Init(shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	if len(args) != 1 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
@@ -51,7 +51,7 @@ func (t *SimpleChaincode) Init(stub ChaincodeStubInterface, function string, arg
 }
 
 // Invoke is our entry point to invoke a chaincode function
-func (t *SimpleChaincode) Invoke(stub ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (t *SimpleChaincode) Invoke(shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("invoke is running " + function)
 
 	// Handle different functions
@@ -65,7 +65,7 @@ func (t *SimpleChaincode) Invoke(stub ChaincodeStubInterface, function string, a
 	return nil, errors.New("Received unknown function invocation")
 }
 
-func (t *SimpleChaincode) write(stub ChaincodeStubInterface, args []string) ([]byte, error) {
+func (t *SimpleChaincode) write(shim.ChaincodeStubInterface, args []string) ([]byte, error) {
     var name, value string
     var err error
     fmt.Println("running write()")
@@ -84,7 +84,7 @@ func (t *SimpleChaincode) write(stub ChaincodeStubInterface, args []string) ([]b
 }
 
 // Query is our entry point for queries
-func (t *SimpleChaincode) Query(stub ChaincodeStubInterface, function string, args []string) ([]byte, error) {
+func (t *SimpleChaincode) Query(shim.ChaincodeStubInterface, function string, args []string) ([]byte, error) {
 	fmt.Println("query is running " + function)
 
 	// Handle different functions
@@ -101,7 +101,7 @@ func (t *SimpleChaincode) Query(stub ChaincodeStubInterface, function string, ar
 	return nil, errors.New("Received unknown function query")
 }
 
-func (t *SimpleChaincode) read(stub ChaincodeStubInterface, args []string) ([]byte, error) {
+func (t *SimpleChaincode) read(shim.ChaincodeStubInterface, args []string) ([]byte, error) {
     var name, jsonResp string
     var err error
 
