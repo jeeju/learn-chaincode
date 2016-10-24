@@ -101,7 +101,7 @@ func (t *Chaincode) Query(stub *shim.ChaincodeStub, function string, args []stri
 }
 
 // read from chaincode state
-func (t * Chaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte, error){
+func (t *Chaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte, error){
 	var assetId, resp string
 	var err error
 
@@ -151,7 +151,7 @@ func (t *Chaincode) Delete(stub *shim.ChaincodeStub, args []string) ([]byte, err
 
 	assetId := args[0]
 	//remove the asset from chaincode state
-	err := t.DelState(assetId)
+	err := stub.DelState(assetId)
 
 	if err != nil{
 		return nil, errors.New("failed to delete state")
