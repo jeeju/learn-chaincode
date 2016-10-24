@@ -1,6 +1,6 @@
 package main
 
-import{
+import(
 	"errors"
 	"fmt"
 	"strconv"
@@ -8,7 +8,7 @@ import{
 	"strings"
 
 	"github.com/openblockchain/obc-peer/openchain/chaincode/shim"
-}
+)
 
 type Chaincode struct {
 }
