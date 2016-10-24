@@ -81,7 +81,7 @@ func (t *Chaincode) Invoke(stub *shim.ChaincodeStub, function string, args []str
  		return t.Write(stub, args)
  	} else if function == "init_asset" {
  		return t.init_asset(stub, args)
- 	} else if function = "set_user" {
+ 	} else if function == "set_user" {
  		return t.set_user(stub, args)
  	}
  	fmt.Println("invoke did not find func:" + function)
@@ -111,7 +111,7 @@ func (t * Chaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte, erro
 
 	assetId = args[0]
 
-	resAsbytes, err = stub.GetState(assetId)
+	resAsbytes, err := stub.GetState(assetId)
 
 	if err != nil {
 		resp = "{\"Error\":\" Failed to get state for " + assetId + "\"}"
@@ -151,14 +151,14 @@ func (t *Chaincode) Delete(stub *shim.ChaincodeStub, args []string) ([]byte, err
 
 	assetId := args[0]
 	//remove the asset from chaincode state
-	err := t.DelState(asserId)
+	err := t.DelState(assetId)
 
 	if err != nil{
 		return nil, errors.New("failed to delete state")
 	}
 
 	// get the asset Index
-	assetAsBytes, err = stub.getState(assetIndexStr)
+	assetAsBytes, err = stub.GetState(assetIndexStr)
 
 	if err != nil {
 		return nil, errors.New("Failed to get asset index")
@@ -172,9 +172,9 @@ func (t *Chaincode) Delete(stub *shim.ChaincodeStub, args []string) ([]byte, err
 	json.Unmarshal(assetAsBytes, &assetIndex)
 	for i, val := range assetIndex{
 			fmt.Println(strconv.Itoa(i)+ " - looking at "+ val +" for "+ assetId)
-			if val == asserId{
+			if val == assetId{
 				fmt.Println("found asset")
-				assetIndex = append(assetIndex[:i], assetIndex[i+1]...)
+				assetIndex = append(assetIndex[:i], assetIndex[i+1:]...)
 				for x:= range assetIndex{
 					fmt.Println(string(x)+ "-" + assetIndex[x])
 				}
