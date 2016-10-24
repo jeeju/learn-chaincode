@@ -45,7 +45,7 @@ func (t *Chaincode) Init(stub *shim.ChaincodeStub, function string, args []strin
 
 	//Intialize the chaincode
 
-	Aval, err = strconv.Atoi(arg[0])
+	Aval, err = strconv.Atoi(args[0])
 	if err != nil {
 		return nil, errors.New("Expecting integer value for asset holding")
 	}
@@ -54,7 +54,7 @@ func (t *Chaincode) Init(stub *shim.ChaincodeStub, function string, args []strin
 
 	err = stub.PutState("abc", []byte(strconv.Itoa(Aval))) //making a test var "abc", I find it handy to read/write to it right away to test the network
 
-	if err != nill {
+	if err != nil {
 		return nil, err
 	}
 
@@ -74,7 +74,7 @@ func (t *Chaincode) Invoke(stub *shim.ChaincodeStub, function string, args []str
  	fmt.Println("invoke function is running" + function)
 
  	if function == "Init" {
- 		return t.init(stub, "init", args)
+ 		return t.Init(stub, "Init", args)
  	} else if function == "delete" {
  		return t.Delete(stub, args)
  	} else if function == "write" {
@@ -111,7 +111,7 @@ func (t * Chaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte, erro
 
 	assetId = args[0]
 
-	resAsbytes, err = stub.getState(assetId)
+	resAsbytes, err = stub.GetState(assetId)
 
 	if err != nil {
 		resp = "{\"Error\":\" Failed to get state for " + assetId + "\"}"
@@ -141,7 +141,7 @@ func (t *Chaincode) Write(stub *shim.ChaincodeStub, args []string) ([]byte, erro
 	return nil, nil
 }
 
-func (t *Chaincode) Delete(stub *ChaincodeStub, args []string) ([]byte, error){
+func (t *Chaincode) Delete(stub *shim.ChaincodeStub, args []string) ([]byte, error){
 
 	var assetid string
 
@@ -149,7 +149,7 @@ func (t *Chaincode) Delete(stub *ChaincodeStub, args []string) ([]byte, error){
 		return nil, errors.New("incorrect arguments Expecting 1 argument")
 	}
 
-	assetId = args[0]
+	assetId := args[0]
 	//remove the asset from chaincode state
 	err := t.DelState(asserId)
 
