@@ -158,7 +158,7 @@ func (t *Chaincode) Delete(stub *shim.ChaincodeStub, args []string) ([]byte, err
 	}
 
 	// get the asset Index
-	assetAsBytes, err = stub.GetState(assetIndexStr)
+	assetAsBytes, err := stub.GetState(assetIndexStr)
 
 	if err != nil {
 		return nil, errors.New("Failed to get asset index")
@@ -207,12 +207,12 @@ func (t *Chaincode) init_asset (stub *shim.ChaincodeStub, args []string) ([]byte
 		 return nil, errors.New("3rd argument must be a non-empty string")
 	 }
 
-	 price, err = strconv.Atoi(args[1])
+	 price, err := strconv.Atoi(args[1])
 	 if err != nil{
 		 return nil, errors.New("2nd argument must be integer")
 	 }
 
-	 asssetId := strings.ToLower(args[0])
+	 assetId := strings.ToLower(args[0])
 	 userId := strings.ToLower(args[2])
 
 	 //make json for asset struct0
@@ -233,7 +233,7 @@ func (t *Chaincode) init_asset (stub *shim.ChaincodeStub, args []string) ([]byte
 	 assetIndex = append(assetIndex, args[0])
 	 fmt.Println("asset Index:", assetIndex)
 	 jsonAsBytes, _ := json.Marshal(assetIndex)
-	 err = stub.PutState(assetIndexStr, jaonAsBytes)
+	 err = stub.PutState(assetIndexStr, jsonAsBytes)
 	  fmt.Println("end init asset method")
 
 		return nil, nil
@@ -254,7 +254,7 @@ func (t *Chaincode) set_user (stub *shim.ChaincodeStub, args []string) ([]byte, 
 	if err != nil {
 		return nil, errors.New("Failed to get thing")
 	}
-	res := asset{}
+	res := Asset{}
 	json.Unmarshal(assetAsBytes, &res)										//un stringify it aka JSON.parse()
 	res.User = args[1]														//change the user
 
