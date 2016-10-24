@@ -143,7 +143,6 @@ func (t *Chaincode) Write(stub *shim.ChaincodeStub, args []string) ([]byte, erro
 
 func (t *Chaincode) Delete(stub *shim.ChaincodeStub, args []string) ([]byte, error){
 
-	var assetid string
 
 	if len(args) !=1 {
 		return nil, errors.New("incorrect arguments Expecting 1 argument")
