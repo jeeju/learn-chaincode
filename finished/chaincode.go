@@ -228,7 +228,7 @@ func (t *Chaincode) init_asset (stub *shim.ChaincodeStub, args []string) ([]byte
 	 }
 
 	 var assetIndex []string
-	 json.Unmarshal(assetAsBytes, &assetIndex)
+	 json.Unmarshal(assetAsbytes, &assetIndex)
 	 // add asset to the index list
 	 assetIndex = append(assetIndex, args[0])
 	 fmt.Println("asset Index:", assetIndex)
@@ -256,7 +256,7 @@ func (t *Chaincode) set_user (stub *shim.ChaincodeStub, args []string) ([]byte, 
 	}
 	res := Asset{}
 	json.Unmarshal(assetAsBytes, &res)										//un stringify it aka JSON.parse()
-	res.User = args[1]														//change the user
+	res.UserId = args[1]														//change the user
 
 	jsonAsBytes, _ := json.Marshal(res)
 	err = stub.PutState(args[0], jsonAsBytes)								//rewrite the asset with id as key
