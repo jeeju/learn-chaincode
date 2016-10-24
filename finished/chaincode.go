@@ -103,7 +103,7 @@ func (t *Chaincode) Query(stub *shim.ChaincodeStub, function string, args []stri
 // read from chaincode state
 func (t * Chaincode) read(stub *shim.ChaincodeStub, args []string) ([]byte, error){
 	var assetId, resp string
-	err error
+	var err error
 
 	if len(args)!=1 {
 		return nil, errors.New("incorrect number of arguments")
@@ -169,7 +169,7 @@ func (t *Chaincode) Delete(stub *ChaincodeStub, args []string) ([]byte, error){
 	//un stringify it aka JSON.parse()
 
 	//remove marble from index
-	json.unmarshal(assetAsBytes, &assetIndex)
+	json.Unmarshal(assetAsBytes, &assetIndex)
 	for i, val := range assetIndex{
 			fmt.Println(strconv.Itoa(i)+ " - looking at "+ val +" for "+ assetId)
 			if val == asserId{
@@ -209,7 +209,7 @@ func (t *Chaincode) init_asset (stub *shim.ChaincodeStub, args []string) ([]byte
 
 	 price, err = strconv.Atoi(args[1])
 	 if err != nil{
-		 return nil, errors.new("2nd argument must be integer")
+		 return nil, errors.New("2nd argument must be integer")
 	 }
 
 	 asssetId := strings.ToLower(args[0])
@@ -222,7 +222,12 @@ func (t *Chaincode) init_asset (stub *shim.ChaincodeStub, args []string) ([]byte
 		 return nil, err
 	 }
 	 // get the asset index
-	 assetAsbytes []string
+	 assetAsbytes, err := stub.GetState(assetIndexStr)
+	 if err != nil{
+		 return nil, errors.New("failed to get asset index")
+	 }
+
+	 var assetIndex []string
 	 json.Unmarshal(assetAsBytes, &assetIndex)
 	 // add asset to the index list
 	 assetIndex = append(assetIndex, args[0])
